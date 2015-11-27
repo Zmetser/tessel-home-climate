@@ -1,0 +1,20 @@
+{
+  "name": "home-climate-hardware",
+  "version": "1.0.0",
+  "description": "Reads and sends climate data from tessel to firebase.",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zmetser/tessel-home-climate.git"
+  },
+  "scripts": {
+    "run": "tessel run src/index.js",
+    "debug": "tessel run src/index.js --listen all"
+  },
+  "author": "Oliver Kovacs <zee@thezee.hu>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "climate-si7020": "^0.1.1",
+    "q": "^1.4.1"
+  }
+}
