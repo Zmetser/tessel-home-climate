@@ -6,31 +6,65 @@ var sendData = require('./sendData');
 
 var climate = climatelib.use(tessel.port['A']);
 
+var processingLEDBlink;
+var idleLED = tessel.led[0];
+var processingLED = tessel.led[1];
+var errorLED = tessel.led[2];
+
 function loop() {
+  idleLED.write(false);
+  processingLED.write(true);
+
   climate.readTemperature('c', function (err, temp) {
     climate.readHumidity(function (err, humid) {
+      (function blink(value) {
+        processingLED.write(value);
+        processingLEDBlink = setTimeout(blink, 200, !value);
+      })(true);
+
       sendData(temp, humid).then(requestDone, requestFail);
     });
   });
 }
 
 function requestDone(response) {
-  var data;
+  var data = {};
+
+  stopProcessingLED();
 
   try {
     data = JSON.parse(response);
   } catch (e) {
-    writeLog(response);
+    handleError(e);
   }
 
-  if (!data.name) writeLog(response);
+  if (!data.name) {
+    handleError(response);
+  }
 
-  setTimeout(loop, 5000);
+  startLoop();
 }
 
 function requestFail(err) {
-  writeLog(err);
+  handleError(err);
+
+  stopProcessingLED();
+  startLoop();
+}
+
+function startLoop() {
+  idleLED.write(true);
   setTimeout(loop, 5000);
+}
+
+function stopProcessingLED() {
+  clearTimeout(processingLEDBlink);
+  processingLED.write(false);
+}
+
+function handleError(message) {
+  errorLED.write(true);
+  writeLog(response);
 }
 
 climate.on('ready', function () {
@@ -40,5 +74,15 @@ climate.on('ready', function () {
 });
 
 climate.on('error', function(err) {
+  (function blink (value) {
+    errorLED.write(value);
+    setTimeout(blink, 200, !value);
+  })(true);
+
   writeLog(err);
 });
+
+// Turn off all status leds
+idleLED.write(false);
+processingLED.write(false);
+errorLED.write(false);
