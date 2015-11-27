@@ -11,6 +11,9 @@ var idleLED = tessel.led[0];
 var processingLED = tessel.led[1];
 var errorLED = tessel.led[2];
 
+var idleTime = !isNaN(parseInt(process.argv[2], 10)) ? parseInt(process.argv[2], 10) : 5000;
+var debugMode = process.argv[3] === 'debug';
+
 function loop() {
   idleLED.write(false);
   processingLED.write(true);
@@ -54,7 +57,7 @@ function requestFail(err) {
 
 function startLoop() {
   idleLED.write(true);
-  setTimeout(loop, 5000);
+  setTimeout(loop, idleTime);
 }
 
 function stopProcessingLED() {
