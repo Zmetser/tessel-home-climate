@@ -8,8 +8,8 @@
     "url": "https://github.com/Zmetser/tessel-home-climate.git"
   },
   "scripts": {
-    "run": "tessel run src/index.js",
-    "debug": "tessel run src/index.js --listen all"
+    "run": "tessel run src/index.js --upload-dir ./log",
+    "debug": "tessel run src/index.js --upload-dir ./log/ --listen all"
   },
   "author": "Oliver Kovacs <zee@thezee.hu>",
   "license": "GPL-3.0",
