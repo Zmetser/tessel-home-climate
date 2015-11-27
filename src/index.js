@@ -2,7 +2,7 @@ var tessel = require('tessel');
 var climatelib = require('climate-si7020');
 
 var writeLog = require('./writeLog');
-var sendData = require('./sendData');
+var sendData = require('./sendData')(process.argv[3]);
 
 var climate = climatelib.use(tessel.port['A']);
 
@@ -12,7 +12,7 @@ var processingLED = tessel.led[1];
 var errorLED = tessel.led[2];
 
 var idleTime = !isNaN(parseInt(process.argv[2], 10)) ? parseInt(process.argv[2], 10) : 5000;
-var debugMode = process.argv[3] === 'debug';
+var debugMode = process.argv[4] === 'debug';
 
 function loop() {
   idleLED.write(false);
