@@ -26,7 +26,7 @@ For example: one tessel in the kitchen and one tessl in the bedroom with updates
  - Tessel1: `tessel push src/index.js --args ./log 3600000 /bedroom`
  - Tessel2: `tessel push src/index.js --args ./log 3600000 /kitchen`
 
-### Status LEDS
+## Status LEDs
 
  - **green** => idle, waiting for next operation
  - **blue**
