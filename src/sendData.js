@@ -7,12 +7,12 @@ function sendData(temp, humid, callback) {
   var payload = {
     temperature: temp,
     humidity: humid,
-    time: Date.now()
+    timestamp: Date.now()
   };
 
   var options = {
     host: 'homethermostat.firebaseio.com',
-    path: '/zee.json',
+    path: '/sensor_readings/client_zee.json',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
